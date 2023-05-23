@@ -1,0 +1,15 @@
+apiVersion: v1 
+kind: Service 
+metadata: 
+  name: db #NOTE: many applications expect this name to be exactly "db" and not anything else
+  labels:
+    name: db-service 
+    app: example-quiz-app
+spec: 
+  type: ClusterIP #groups the db pods together into a single IP address that is accessible by the other services
+  ports: 
+  - port: 5432 
+    targetPort: 5432 
+  selector: #copy the labels from the db-deployment.yaml file into the selector below
+    app: example-quiz-app 
+    tier: db 

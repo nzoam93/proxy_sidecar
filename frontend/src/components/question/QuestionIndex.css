@@ -1,0 +1,25 @@
+.question{
+    color: blue;
+}
+
+.question-card{
+    min-height: 100px;
+    width: 30vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.question-header{
+    display: flex;
+    justify-content: center;
+    margin: 15px;
+    font-size: 40px;
+}
+
+.points{
+    display: flex;
+    justify-content: center;
+    font-size: large;
+}

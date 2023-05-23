@@ -1,0 +1,28 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  #the name of the deployment
+  name: backend-deployment 
+  #labels that can be used to sort through our containers as needed
+  labels: 
+    app: example-quiz-app
+    tier: backend
+spec: 
+  #how many backend pods we want to create
+  replicas: 1 
+  template: 
+    metadata:
+      name: backend-pod
+      labels:
+        app: example-quiz-app 
+        tier: backend 
+    spec: 
+      containers:
+      - name: backend-container 
+        image: nzoam93/example-app-backend #the image we created earlier
+        ports:
+        - containerPort: 5000 #because backend is listening on port 5000
+  selector: 
+    #needs to match the label from template > metadata > label above
+    matchLabels:
+      app: example-quiz-app
