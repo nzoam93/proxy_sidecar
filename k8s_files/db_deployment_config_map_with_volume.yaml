@@ -1,16 +1,12 @@
 apiVersion: apps/v1 
 kind: Deployment
 metadata:
-  #the name of the deployment
   name: db-deployment 
-  #labels that can be used to sort through our containers as needed
   labels: 
     app: example-quiz-app
     tier: db
 spec: 
-  #how many db pods we want to create
   replicas: 1
-  #the template section is where we tell 
   template: 
     metadata:
       name: db-pod
@@ -20,16 +16,14 @@ spec:
     spec: 
       containers:
       - name: db-container 
-        # utilize the db image we created earlier
         image: nzoam93/example-app-db
         #the environmental variables required by Postgres go in this environment section
-        volumes:
+        ports: 
+        - containerPort: 5432 
+      volumes:
         - name: example-app-config-volume
           configMap: 
             name: db-config
-        ports: 
-        - containerPort: 5432 #because PG is listening on port 5432
   selector: 
-    #needs to match the label from template > metadata > label above
     matchLabels:
       app: example-quiz-app

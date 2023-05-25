@@ -1,0 +1,41 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: db-deployment 
+  labels: 
+    app: example-quiz-app
+    tier: db
+spec: 
+  replicas: 1
+  template: 
+    metadata:
+      name: db-pod
+      labels:
+        app: example-quiz-app 
+        tier: db 
+    spec: 
+      #added the volumes section here
+      volumes:
+      - name: postgres-storage
+        persistentVolumeClaim:
+          claimName: postgres-pvc #matches the name of the PVC made in a separate .yaml file
+      containers:
+      - name: db-container 
+        image: nzoam93/example-app-db
+        #added the volumeMounts section here
+        volumeMounts:
+            - name: postgres-storage #matches the name of the volume above
+              mountPath: /var/lib/postgresql/data 
+        env: 
+        - name: POSTGRES_USER
+          value: "myuser"
+        - name: POSTGRES_PASSWORD
+          value: "mypassword"
+        - name: POSTGRES_DB
+          value: "mydb" 
+        ports: 
+        - containerPort: 5432 
+        
+  selector: 
+    matchLabels:
+      app: example-quiz-app
